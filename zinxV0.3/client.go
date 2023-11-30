@@ -36,7 +36,7 @@ func main() {
 			return
 		}
 
-		fmt.Printf("server call back cnt = %d.\nbuf:%s\n\n", cnt, buf)
+		fmt.Printf("server call back cnt = %d\nbuf:%s\n", cnt, buf)
 
 		// cpu 阻塞
 		time.Sleep(1 * time.Second)
