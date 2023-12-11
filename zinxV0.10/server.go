@@ -34,12 +34,23 @@ func DoConnBegin(conn ziface.IConnection) {
 	if err := conn.SendMsg(202, []byte("DoConnection BEGIN")); err != nil {
 		fmt.Printf("err:%s\n", err)
 	}
+
+	fmt.Printf("Set conn Name, Home ...")
+	conn.SetProperty("Name", "Zhangys")
+	conn.SetProperty("Home", "Chengdu")
 }
 
 // 销毁连接之前执行的钩子函数
 func DoConnLost(conn ziface.IConnection) {
 	fmt.Printf("==> DoConnLost is Called\n")
 	fmt.Printf("connID=%d is Lost!\n", conn.GetConnID())
+
+	if name, err := conn.GetProperty("Name"); err == nil {
+		fmt.Printf("GetProperty Name=%s\n", name)
+	}
+	if home, err := conn.GetProperty("Home"); err == nil {
+		fmt.Printf("GetProperty Home=%s\n", home)
+	}
 }
 
 // test Handle
@@ -56,7 +67,7 @@ func (this *HelloRouter) Handle(request ziface.IRequest) {
 
 func main() {
 	// 1,创建server
-	s := znet.NewServer("[zinx V0.8]")
+	s := znet.NewServer("[zinx V0.10]")
 
 	// 2.注册连接Hook钩子函数
 	s.SetOnConnStart(DoConnBegin)
